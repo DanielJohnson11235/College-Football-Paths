@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Big Ten Title Game Paths</title>
+<title>Conference Title Game Paths</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
   /* layout: team tabs, then summary strip, then games list (left) beside verdict + rooting guide + standings (right) */
   --bg:#f3f5f1; --surface:#ffffff; --ink:#15231a; --muted:#5d6b61; --line:#d8ded6;
   --accent:#0f6b3a; --accent-soft:#e2f0e6; --gold:#e0b100; --gold-soft:#fff5cc;
-  --bad:#b23a2e; --bad-soft:#f8e3e0;
+  --bad:#b23a2e; --bad-soft:#f8e3e0; --on-accent:#ffffff;
   --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   color-scheme:light;
@@ -21,13 +21,13 @@
   :root:not([data-theme="light"]){
     --bg:#0f1712; --surface:#17221b; --ink:#e7eee8; --muted:#97a69b; --line:#2a3a2f;
     --accent:#4cc27e; --accent-soft:#1b3424; --gold:#f2c94c; --gold-soft:#3a3214;
-    --bad:#ff8a7a; --bad-soft:#3b1f1b; color-scheme:dark;
+    --bad:#ff8a7a; --bad-soft:#3b1f1b; --on-accent:#0b1a12; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#0f1712; --surface:#17221b; --ink:#e7eee8; --muted:#97a69b; --line:#2a3a2f;
   --accent:#4cc27e; --accent-soft:#1b3424; --gold:#f2c94c; --gold-soft:#3a3214;
-  --bad:#ff8a7a; --bad-soft:#3b1f1b; color-scheme:dark;
+  --bad:#ff8a7a; --bad-soft:#3b1f1b; --on-accent:#0b1a12; color-scheme:dark;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -53,7 +53,7 @@ h2{font-size:22px;text-transform:uppercase}
 button{font:inherit;cursor:pointer}
 .btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:500}
 .btn:hover{border-color:var(--accent)}
-.btn.primary{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
 .btn:focus-visible,.pick:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .mode{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--muted);margin-left:auto}
 .mode select{font:inherit;font-size:13px;padding:4px 6px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
@@ -66,12 +66,12 @@ button{font:inherit;cursor:pointer}
 .pick .pr{font-size:12px;color:var(--muted)}
 .rk{font-family:var(--display);font-weight:700;font-size:13px;color:var(--accent);margin-right:3px}
 .rec{display:block;font-size:11px;font-weight:400;color:var(--muted)}
-.pick.won .rk,.pick.won .rec{color:var(--surface)}
+.pick.won .rk,.pick.won .rec{color:var(--on-accent)}
 .pick.home .tm{text-align:right}
 td .rec{display:inline;margin-left:6px}
 .pick.home{flex-direction:row-reverse;text-align:right}
-.pick.won{background:var(--accent);border-color:var(--accent);color:var(--surface)}
-.pick.won .pr{color:var(--surface);opacity:.85}
+.pick.won{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.pick.won .pr{color:var(--on-accent);opacity:.85}
 .pick.lost{opacity:.45;text-decoration:line-through}
 .at{display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);width:22px}
 .flag{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;padding:1px 6px;border-radius:4px;background:var(--gold-soft);color:var(--ink)}
@@ -104,21 +104,38 @@ details summary{cursor:pointer;font-weight:600;font-size:14px}
 @media (prefers-reduced-motion: reduce){.bar>i{transition:none}}
 
 .tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;border-bottom:2px solid var(--line)}
-.tab{border:1px solid var(--line);border-bottom:0;background:var(--surface);color:var(--ink);border-radius:8px 8px 0 0;padding:8px 12px;display:grid;gap:1px;text-align:left;min-width:104px;flex:0 0 auto;margin-bottom:-2px}
+.tab{border:1px solid var(--line);border-top:4px solid var(--tc,var(--line));border-bottom:0;background:var(--surface);color:var(--ink);border-radius:8px 8px 0 0;padding:8px 12px;display:grid;gap:1px;text-align:left;min-width:104px;flex:0 0 auto;margin-bottom:-2px}
 .tab .tn{font-weight:600;font-size:14px;white-space:nowrap}
 .tab .to{font-family:var(--display);font-size:20px;font-weight:700;line-height:1}
 .tab .to small{font-family:var(--body);font-size:11px;font-weight:500;color:var(--muted);margin-left:4px}
-.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
-.tab[aria-selected="true"] .rk,.tab[aria-selected="true"] .to small{color:var(--surface)}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);border-top-color:var(--gold);color:var(--on-accent)}
+.tab .rk{color:var(--tc,var(--accent))}
+.tab[aria-selected="true"] .rk,.tab[aria-selected="true"] .to small{color:var(--on-accent)}
 .tab:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .pathnote{font-size:13px;background:var(--gold-soft);border-radius:8px;padding:8px 10px}
+
+.band{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--accent) 0 72%,var(--gold) 72% 100%);margin-bottom:14px;transition:background .3s}
+h1{color:var(--accent)}
+.tabs{border-bottom-color:var(--accent)}
+.tile.hero .big{color:var(--accent)}
+@media (prefers-reduced-motion: reduce){.band{transition:none}}
+
+.confs{display:flex;gap:6px;flex-wrap:wrap}
+.conf{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 16px;font-family:var(--display);font-size:18px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.conf[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.conf:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>Big Ten title game paths</h1>
-    <p class="sub">One tab for every Big Ten team with at least a 1% chance of reaching Indianapolis. Pick winners for the 27 remaining conference games, or leave any game unpicked and it gets simulated. Your picks carry across tabs. Results through Nov 12, 2026. Rankings are the CFP committee's Nov 10 top 25; records show overall, then Big Ten.</p>
+    <div class="band" aria-hidden="true"></div>
+    <h1 id="title">Big Ten title game paths</h1>
+    <p class="sub">Pick a conference, then a team. Each tab is a team with at least a 1% chance of reaching its conference title game. Pick winners for the remaining conference games, or leave any game unpicked and it gets simulated. Picks carry across tabs and are kept for each conference. Results through Nov 12, 2026. Rankings are the CFP committee's Nov 10 top 25; records show overall, then conference.</p>
+  </header>
+
+  <nav class="confs" aria-label="Conference" id="confs"></nav>
+  <header style="display:none">
   </header>
 
   <nav class="tabs" role="tablist" aria-label="Teams" id="tabs"></nav>
@@ -155,7 +172,7 @@ details summary{cursor:pointer;font-weight:600;font-size:14px}
       <section class="panel" aria-label="Standings">
         <h2>Big Ten standings</h2>
         <div style="overflow-x:auto"><table>
-          <thead><tr><th>Team</th><th class="r">Overall</th><th class="r">B1G now</th><th class="r">With picks</th><th class="r">Left</th><th class="r">Title game</th></tr></thead>
+          <thead><tr><th>Team</th><th class="r">Overall</th><th class="r" id="confNow">B1G now</th><th class="r">With picks</th><th class="r">Left</th><th class="r">Title game</th></tr></thead>
           <tbody id="stand"></tbody>
         </table></div>
       </section>
@@ -164,266 +181,283 @@ details summary{cursor:pointer;font-weight:600;font-size:14px}
 
   <section class="panel note" aria-label="How this works">
     <h2 style="color:var(--ink)">How the tool decides</h2>
-    <p>Top two teams by Big Ten record meet in Indianapolis. Ties are broken with the conference's published order: head-to-head, record against common conference opponents, record against the best common opponents in order of finish, then the combined conference win % of each team's opponents. The final step, the SportSource Analytics rating, can't be computed here, so those rare cases are split evenly. When a step knocks teams out of a multi-team tie, the survivors restart at head-to-head.</p>
-    <p>"Model odds" come from a simple power rating fit to the margins of all 54 Big Ten games played so far, with 2.5 points for home field. The Illinois at UCLA and Northwestern at Ohio State lines use published win probabilities. Odds are a rough guide. Each update runs 20,000 simulations of the unpicked games.</p>
-    <p>Tabs cover teams at 1% or better with no games picked: UCLA, Indiana, Oregon, Ohio State, Wisconsin, Iowa and USC. Illinois (under 1%), Minnesota and Northwestern still have long-shot paths and show up in the standings. "Most likely way in" is the single likeliest full set of results that sends the selected team to Indianapolis: favorites win every game except the fewest, likeliest upsets needed.</p>
+    <p id="rules"></p>
+    <p>Two tiebreak steps can't be computed ahead of time. The SportSource Analytics rating isn't public until after the season, so the tool uses the current CFP ranking as a stand-in, then its own power rating for unranked teams. The SEC's capped scoring-margin step depends on final scores, so ties that reach it are split evenly. When a step knocks teams out of a multi-team tie, the survivors restart at head-to-head.</p>
+    <p>"Model odds" come from a simple power rating for each conference, fit to the margins of every conference game played so far, with 2.5 points for home field. Where a published win probability exists for this week's game, it's used instead. Odds are a rough guide. Each update runs 20,000 simulations of the unpicked games.</p>
+    <p id="tabNote"></p>
   </section>
 </div>
 
 <script>
-const TEAMS={UCLA:"UCLA",IND:"Indiana",ORE:"Oregon",USC:"USC",IOWA:"Iowa",ILL:"Illinois",WIS:"Wisconsin",OSU:"Ohio State",NW:"Northwestern",MINN:"Minnesota",MICH:"Michigan",NEB:"Nebraska",WASH:"Washington",PSU:"Penn State",PUR:"Purdue",MD:"Maryland",MSU:"Michigan State",RUTG:"Rutgers"};
-// [away, home, awayPts, homePts]
-const PLAYED=[["PUR","UCLA",38,52],["UCLA","MD",54,3],["UCLA","ORE",17,15],["WIS","UCLA",7,17],["MSU","UCLA",10,28],["UCLA","MINN",34,20],["NW","IND",23,29],["IND","RUTG",47,15],["IND","NEB",20,17],["OSU","IND",19,15],["IND","MICH",13,6],["MINN","IND",16,23],["USC","RUTG",42,35],["ORE","USC",41,27],["WASH","USC",21,25],["USC","PSU",31,23],["USC","WIS",7,24],["OSU","USC",18,30],["IOWA","MICH",20,19],["OSU","IOWA",31,14],["IOWA","WASH",41,24],["IOWA","MINN",10,13],["WIS","IOWA",0,30],["IOWA","NW",24,10],["ILL","OSU",19,42],["PUR","ILL",24,17],["ILL","MSU",38,37],["ORE","ILL",10,21],["ILL","MD",20,17],["NEB","ILL",13,24],["WIS","PSU",24,20],["MSU","WIS",3,31],["RUTG","WIS",10,31],["MD","OSU",16,45],["ORE","OSU",41,28],["NEB","ORE",14,17],["NW","ORE",26,34],["PSU","NW",13,34],["NW","MSU",24,21],["RUTG","NW",14,42],["MICH","MINN",14,20],["PSU","MICH",18,21],["MICH","RUTG",28,21],["MSU","MICH",15,6],["MINN","WASH",27,24],["MINN","PUR",13,41],["NEB","MSU",31,13],["MD","NEB",23,48],["WASH","NEB",17,10],["WASH","PUR",38,26],["PSU","WASH",28,25],["PUR","PSU",17,31],["MD","PUR",34,29],["RUTG","MD",37,30]];
-// [away, home, weekLabel]
-const REMAINING=[["ILL","UCLA","Nov 13–14"],["USC","IND","Nov 13–14"],["MICH","ORE","Nov 13–14"],["PUR","IOWA","Nov 13–14"],["WIS","MD","Nov 13–14"],["NW","OSU","Nov 13–14"],["MINN","PSU","Nov 13–14"],["NEB","RUTG","Nov 13–14"],["WASH","MSU","Nov 13–14"],
-["ORE","MSU","Nov 20–21"],["UCLA","MICH","Nov 20–21"],["IND","WASH","Nov 20–21"],["MD","USC","Nov 20–21"],["IOWA","ILL","Nov 20–21"],["WIS","PUR","Nov 20–21"],["OSU","NEB","Nov 20–21"],["NW","MINN","Nov 20–21"],["RUTG","PSU","Nov 20–21"],
-["USC","UCLA","Nov 27–28"],["PUR","IND","Nov 27–28"],["WASH","ORE","Nov 27–28"],["NEB","IOWA","Nov 27–28"],["ILL","NW","Nov 27–28"],["MINN","WIS","Nov 27–28"],["MICH","OSU","Nov 27–28"],["MSU","RUTG","Nov 27–28"],["PSU","MD","Nov 27–28"]];
-
-
-// Big Ten title-game selection (no divisions, 2024+ procedures)
-// games: array of {w,l}. Returns {pair:[a,b], notes:[...], unresolved:bool}
-function buildRecords(teams, games){
-  const rec={}, opp={}, res={};
+// Conference title-game engine. Each conference supplies its tiebreaker step list.
+// Steps: H2H, COMMON, BESTCOMMON, SOS, WINS (Big 12 total wins), PROXY (SportSource stand-in), UNRES (can't be computed)
+function erf(x){const t=1/(1+0.3275911*Math.abs(x));const y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);return x>=0?y:-y;}
+const Phi=x=>0.5*(1+erf(x/Math.SQRT2));
+function fitRatings(teams,played){
+  const idx=Object.fromEntries(teams.map((t,i)=>[t,i]));const n=teams.length;let r=new Array(n).fill(0);
+  for(let it=0;it<5000;it++){const g=new Array(n).fill(0);
+    for(const [a,h,ap,hp] of played){const m=Math.max(-28,Math.min(28,hp-ap));const e=(r[idx[h]]-r[idx[a]]+2.5)-m;g[idx[h]]+=e;g[idx[a]]-=e;}
+    for(let i=0;i<n;i++){g[i]+=2*r[i];r[i]-=0.02*g[i];}}
+  const mean=r.reduce((a,b)=>a+b,0)/n;return Object.fromEntries(teams.map((t,i)=>[t,Math.round((r[i]-mean)*10)/10]));
+}
+function prepConf(key,c){
+  const teams=Object.keys(c.teams);
+  const base=c.played.map(([a,h,ap,hp])=>ap>hp?{w:a,l:h}:{w:h,l:a});
+  const ratings=fitRatings(teams,c.played);
+  const pHome=c.remaining.map(([a,h])=>{const k=a+"@"+h;return c.pub[k]!=null?c.pub[k]:Phi((ratings[h]-ratings[a]+2.5)/14);});
+  const R0=buildRecords(teams,base);
+  const ovrW=Object.fromEntries(teams.map(t=>[t,+c.ovr[t].split("-")[0]]));
+  return Object.assign({},c,{key,names:c.teams,teams,base,ratings,pHome,R0,ovrW});
+}
+function buildRecords(teams,games){
+  const rec={},opp={},res={};
   for(const t of teams){rec[t]={w:0,l:0};opp[t]=[];res[t]={};}
   for(const g of games){rec[g.w].w++;rec[g.l].l++;opp[g.w].push(g.l);opp[g.l].push(g.w);
-    res[g.w][g.l]=(res[g.w][g.l]||0)+1; res[g.l][g.w]=(res[g.l][g.w]||0)-1;}
-  const pct=t=>rec[t].w/(rec[t].w+rec[t].l||1);
+    res[g.w][g.l]=(res[g.w][g.l]||0)+1;res[g.l][g.w]=(res[g.l][g.w]||0)-1;}
+  const pct=t=>rec[t].w/((rec[t].w+rec[t].l)||1);
   return {rec,opp,res,pct};
 }
 function recordVs(R,t,set){let w=0,l=0;for(const o of R.opp[t]){if(set.has(o)){if((R.res[t][o]||0)>0)w++;else l++;}}return {w,l,p:(w+l)?w/(w+l):null};}
-// apply one step: returns array of groups (best first) or null if no separation
-function stepScores(R,tied,step,allTeams){
-  if(step===1){ // head-to-head
-    const set=new Set(tied);
-    const roundRobin=tied.every(a=>tied.every(b=>a===b||R.opp[a].includes(b)));
-    if(roundRobin){return tied.map(t=>({t,s:recordVs(R,t,new Set(tied.filter(x=>x!==t))).p??0.5}));}
-    // not all played: a team that beat every other tied team ranks first; one that lost to all ranks last
-    return tied.map(t=>{const others=tied.filter(x=>x!==t);
-      const beatAll=others.every(o=>(R.res[t][o]||0)>0); const lostAll=others.every(o=>(R.res[t][o]||0)<0);
-      return {t,s:beatAll?1:lostAll?0:0.5};});
+const STEPNAMES={H2H:"head-to-head",COMMON:"record vs. common opponents",BESTCOMMON:"record vs. best common opponents",SOS:"opponents' combined conference win %",WINS:"total wins",PROXY:"SportSource ranking (CFP ranking used as a stand-in)"};
+function stepScores(ctx,tied,step){
+  const {R,C}=ctx;const all=C.teams;
+  if(step==="H2H"){
+    const rr=tied.every(a=>tied.every(b=>a===b||R.opp[a].includes(b)));
+    if(rr)return tied.map(t=>({t,s:recordVs(R,t,new Set(tied.filter(x=>x!==t))).p??0.5}));
+    return tied.map(t=>{const o=tied.filter(x=>x!==t);const ba=o.every(x=>(R.res[t][x]||0)>0),la=o.every(x=>(R.res[t][x]||0)<0);return {t,s:ba?1:la?0:0.5};});
   }
-  const common=allTeams.filter(o=>!tied.includes(o)&&tied.every(t=>R.opp[t].includes(o)));
-  if(step===2){ if(!common.length) return null;
-    const set=new Set(common); return tied.map(t=>({t,s:recordVs(R,t,set).p}));}
-  if(step===3){ if(!common.length) return null;
-    // walk common opponents in order of finish (grouped by conf pct), compare records vs each group
-    const groups={}; for(const o of common){const k=R.pct(o).toFixed(4);(groups[k]=groups[k]||[]).push(o);}
-    const keys=Object.keys(groups).sort((a,b)=>b-a);
-    for(const k of keys){const set=new Set(groups[k]);const sc=tied.map(t=>({t,s:recordVs(R,t,set).p}));
-      if(new Set(sc.map(x=>x.s)).size>1) return sc;}
+  const common=all.filter(o=>!tied.includes(o)&&tied.every(t=>R.opp[t].includes(o)));
+  if(step==="COMMON"){if(!common.length)return null;const set=new Set(common);return tied.map(t=>({t,s:recordVs(R,t,set).p}));}
+  if(step==="BESTCOMMON"){if(!common.length)return null;
+    const groups={};for(const o of common){const k=R.pct(o).toFixed(4);(groups[k]=groups[k]||[]).push(o);}
+    for(const k of Object.keys(groups).sort((a,b)=>b-a)){const set=new Set(groups[k]);const sc=tied.map(t=>({t,s:recordVs(R,t,set).p}));if(new Set(sc.map(x=>x.s)).size>1)return sc;}
     return null;}
-  if(step===4){ // combined conference win% of conference opponents
-    return tied.map(t=>{let w=0,l=0;for(const o of R.opp[t]){w+=R.rec[o].w;l+=R.rec[o].l;}return {t,s:w/(w+l)};});}
+  if(step==="SOS")return tied.map(t=>{let w=0,l=0;for(const o of R.opp[t]){w+=R.rec[o].w;l+=R.rec[o].l;}return {t,s:w/(w+l)};});
+  if(step==="WINS")return tied.map(t=>({t,s:C.ovrW[t]+R.rec[t].w-C.R0.rec[t].w}));
+  if(step==="PROXY")return tied.map(t=>({t,s:(C.rank[t]?1000-C.rank[t]:0)+C.ratings[t]}));
   return null;
 }
-const STEPNAMES={1:"head-to-head",2:"record vs. common opponents",3:"record vs. best common opponents",4:"opponents' combined conference win %"};
-// select k teams from tied list. returns {picked, notes, unresolved}
-function selectFrom(R,tied,k,allTeams,notes){
-  if(tied.length<=k) return {picked:tied.slice(),unresolved:false};
-  for(let step=1;step<=4;step++){
-    const sc=stepScores(R,tied,step,allTeams); if(!sc) continue;
-    const vals=[...new Set(sc.map(x=>x.s))].sort((a,b)=>b-a); if(vals.length<2) continue;
-    const top=sc.filter(x=>x.s===vals[0]).map(x=>x.t);
-    if(top.length===k){notes.push(`${top.map(n).join(" & ")} ${top.length>1?"win":"wins"} the ${tied.length}-way tie on ${STEPNAMES[step]}`);return {picked:top,unresolved:false};}
-    if(top.length>k){ // eliminate the lower ones, restart with smaller group
-      if(top.length<tied.length){notes.push(`${tied.filter(t=>!top.includes(t)).map(n).join(", ")} eliminated on ${STEPNAMES[step]}`);return selectFrom(R,top,k,allTeams,notes);} continue;}
-    // top.length < k: those advance, fill the rest from remaining (restart at step 1)
-    notes.push(`${top.map(n).join(" & ")} advance${top.length>1?"":"s"} on ${STEPNAMES[step]}`);
-    const rest=tied.filter(t=>!top.includes(t));
-    const sub=selectFrom(R,rest,k-top.length,allTeams,notes);
+let noteName=t=>t;function setNamer(f){noteName=f;}
+function selectFrom(ctx,tied,k,notes){
+  if(tied.length<=k)return {picked:tied.slice(),unresolved:false};
+  for(const step of ctx.C.steps){
+    const sc=stepScores(ctx,tied,step);if(!sc)continue;
+    const vals=[...new Set(sc.map(x=>x.s))].sort((a,b)=>b-a);if(vals.length<2)continue;
+    const top=sc.filter(x=>x.s===vals[0]).map(x=>x.t);const label=STEPNAMES[step];
+    if(top.length===k){notes.push(`${top.map(noteName).join(" & ")} ${top.length>1?"win":"wins"} the ${tied.length}-way tie on ${label}`);return {picked:top,unresolved:false};}
+    if(top.length>k){notes.push(`${tied.filter(t=>!top.includes(t)).map(noteName).join(", ")} eliminated on ${label}`);return selectFrom(ctx,top,k,notes);}
+    notes.push(`${top.map(noteName).join(" & ")} ${top.length>1?"advance":"advances"} on ${label}`);
+    const sub=selectFrom(ctx,tied.filter(t=>!top.includes(t)),k-top.length,notes);
     return {picked:top.concat(sub.picked),unresolved:sub.unresolved,coin:sub.coin,coinK:sub.coinK};
   }
-  notes.push(`${tied.map(n).join(", ")} still tied, so the SportSource Analytics rating decides (this tool treats it as a coin flip)`);
-  return {picked:tied.slice(0,k),unresolved:true,coin:tied,coinK:k};
+  notes.push(`${tied.map(noteName).join(", ")} still tied after every step this tool can compute, so it's treated as a coin flip`);
+  return {picked:tied.slice(0,k),unresolved:true,coin:tied.slice(),coinK:k};
 }
-let n=t=>t;
-function setNamer(f){n=f;}
-function titleGame(allTeams,games){
-  const R=buildRecords(allTeams,games); const notes=[];
-  const sorted=allTeams.slice().sort((a,b)=>R.pct(b)-R.pct(a));
-  const topPct=R.pct(sorted[0]); const first=sorted.filter(t=>R.pct(t)===topPct);
-  let pair,unresolved=false,coin=null,coinK=0;
-  if(first.length>=2){const s=selectFrom(R,first,2,allTeams,notes);pair=s.picked;unresolved=s.unresolved;coin=s.coin||null;coinK=s.coinK||0;}
-  else{const second=sorted.filter(t=>R.pct(t)===R.pct(sorted[first.length]));
-    const s=selectFrom(R,second,1,allTeams,notes);pair=[first[0],...s.picked];unresolved=s.unresolved;coin=s.coin||null;coinK=s.coinK||0;}
-  return {pair,notes,unresolved,coin,coinK,R,sorted};
+function topGroup(C,R,pool){
+  const best=Math.max(...pool.map(t=>R.pct(t)));const s1=pool.filter(t=>R.pct(t)===best);
+  if(C.tieDef!=="acc")return s1;
+  const gp=t=>R.rec[t].w+R.rec[t].l;
+  const add=pool.filter(t=>!s1.includes(t)&&s1.some(s=>gp(s)!==gp(t)&&(R.rec[s].w===R.rec[t].w||R.rec[s].l===R.rec[t].l)));
+  return s1.concat(add);
+}
+function titleGame(C,games){
+  const R=buildRecords(C.teams,games);const ctx={R,C};const notes=[];
+  const first=topGroup(C,R,C.teams);let pair,res;
+  if(first.length>=2){res=selectFrom(ctx,first,2,notes);pair=res.picked;}
+  else{const rest=C.teams.filter(t=>t!==first[0]);const second=topGroup(C,R,rest);res=selectFrom(ctx,second,1,notes);pair=[first[0]].concat(res.picked);}
+  return {pair,notes,unresolved:!!res.unresolved,coin:res.coin||null,coinK:res.coinK||0,R};
 }
 
 
-const ALL=Object.keys(TEAMS);
-const RT={"UCLA":9.2,"IND":5,"ORE":5.5,"USC":0.2,"IOWA":6.3,"ILL":-1.1,"WIS":3.6,"OSU":6.6,"NW":2.7,"MINN":-2.9,"MICH":-3.6,"NEB":1.4,"WASH":-1,"PSU":-2.4,"PUR":-2.3,"MD":-10.4,"MSU":-5.9,"RUTG":-10.8};
-// CFP Selection Committee rankings, Nov 10, 2026 (games through Nov 7)
-const RANK={UCLA:4,IND:9,IOWA:15,ORE:16,USC:18,OSU:20};
-// Overall records through Nov 12, 2026
-const OVR={UCLA:"9-0",IND:"8-1",USC:"7-2",IOWA:"7-2",ILL:"6-3",ORE:"6-3",WIS:"6-3",NW:"6-3",OSU:"6-3",MINN:"5-4",WASH:"5-4",NEB:"5-4",MICH:"5-4",PSU:"5-4",MSU:"3-6",PUR:"3-6",MD:"3-6",RUTG:"2-7"};
-// Tabs: teams with >1% title-game odds with no picks (model odds, 100k sims)
-const TABS=[["UCLA","ucla"],["IND","indiana"],["ORE","oregon"],["OSU","ohio-state"],["WIS","wisconsin"],["IOWA","iowa"],["USC","usc"]];
-const DEFAULT_TAB="ORE";
-// Most likely full scenario that sends each team in: favorites everywhere except these upsets
-const PATHS={"UCLA":{},"IND":{},"ORE":{"IND@WASH":"WASH"},"OSU":{"USC@IND":"USC"},"WIS":{"ORE@MSU":"MSU","IND@WASH":"WASH","OSU@NEB":"NEB"},"IOWA":{"ORE@MSU":"MSU","IND@WASH":"WASH","WIS@PUR":"PUR","OSU@NEB":"NEB"},"USC":{"USC@IND":"USC","USC@UCLA":"USC"}};
-setNamer(t=>TEAMS[t]);
-const BASE=PLAYED.map(([a,h,ap,hp])=>ap>hp?{w:a,l:h}:{w:h,l:a});
-const R_NOW=buildRecords(ALL,BASE);
-const CONF=t=>`${R_NOW.rec[t].w}-${R_NOW.rec[t].l}`;
-const rk=t=>RANK[t]?`<span class="rk">#${RANK[t]}</span>`:"";
-const nm=t=>(RANK[t]?`#${RANK[t]} `:"")+TEAMS[t];
-const nmHtml=t=>`${rk(t)}${TEAMS[t]}`;
-function erf(x){const t=1/(1+0.3275911*Math.abs(x));const y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);return x>=0?y:-y;}
-const Phi=x=>0.5*(1+erf(x/Math.SQRT2));
-const P_MODEL=REMAINING.map(([a,h])=>Phi((RT[h]-RT[a]+2.5)/14));
-P_MODEL[0]=0.793; P_MODEL[5]=0.862;
-const FAV=REMAINING.map(([a,h],i)=>P_MODEL[i]>=0.5?h:a);
-const picks=new Array(REMAINING.length).fill(null);
-let mode="model", team=DEFAULT_TAB, lastSim=null;
-const pHome=i=>mode==="coin"?0.5:P_MODEL[i];
-const pWin=(i,t)=>REMAINING[i][1]===t?P_MODEL[i]:1-P_MODEL[i];
+const RAW={"b1g": {"name": "Big Ten", "short": "B1G", "site": "Indianapolis", "weeks": ["Nov 13–14", "Nov 20–21", "Nov 27–28"], "teams": {"UCLA": "UCLA", "IND": "Indiana", "ORE": "Oregon", "USC": "USC", "IOWA": "Iowa", "ILL": "Illinois", "WIS": "Wisconsin", "OSU": "Ohio State", "NW": "Northwestern", "MINN": "Minnesota", "MICH": "Michigan", "NEB": "Nebraska", "WASH": "Washington", "PSU": "Penn State", "PUR": "Purdue", "MD": "Maryland", "MSU": "Michigan State", "RUTG": "Rutgers"}, "ovr": {"UCLA": "9-0", "IND": "8-1", "USC": "7-2", "IOWA": "7-2", "ILL": "6-3", "ORE": "6-3", "WIS": "6-3", "NW": "6-3", "OSU": "6-3", "MINN": "5-4", "WASH": "5-4", "NEB": "5-4", "MICH": "5-4", "PSU": "5-4", "MSU": "3-6", "PUR": "3-6", "MD": "3-6", "RUTG": "2-7"}, "rank": {"UCLA": 4, "IND": 9, "IOWA": 15, "ORE": 16, "USC": 18, "OSU": 20}, "pub": {"ILL@UCLA": 0.793, "NW@OSU": 0.862}, "steps": ["H2H", "COMMON", "BESTCOMMON", "SOS", "PROXY"], "tieDef": "pct", "played": [["PUR", "UCLA", 38, 52], ["UCLA", "MD", 54, 3], ["UCLA", "ORE", 17, 15], ["WIS", "UCLA", 7, 17], ["MSU", "UCLA", 10, 28], ["UCLA", "MINN", 34, 20], ["NW", "IND", 23, 29], ["IND", "RUTG", 47, 15], ["IND", "NEB", 20, 17], ["OSU", "IND", 19, 15], ["IND", "MICH", 13, 6], ["MINN", "IND", 16, 23], ["USC", "RUTG", 42, 35], ["ORE", "USC", 41, 27], ["WASH", "USC", 21, 25], ["USC", "PSU", 31, 23], ["USC", "WIS", 7, 24], ["OSU", "USC", 18, 30], ["IOWA", "MICH", 20, 19], ["OSU", "IOWA", 31, 14], ["IOWA", "WASH", 41, 24], ["IOWA", "MINN", 10, 13], ["WIS", "IOWA", 0, 30], ["IOWA", "NW", 24, 10], ["ILL", "OSU", 19, 42], ["PUR", "ILL", 24, 17], ["ILL", "MSU", 38, 37], ["ORE", "ILL", 10, 21], ["ILL", "MD", 20, 17], ["NEB", "ILL", 13, 24], ["WIS", "PSU", 24, 20], ["MSU", "WIS", 3, 31], ["RUTG", "WIS", 10, 31], ["MD", "OSU", 16, 45], ["ORE", "OSU", 41, 28], ["NEB", "ORE", 14, 17], ["NW", "ORE", 26, 34], ["PSU", "NW", 13, 34], ["NW", "MSU", 24, 21], ["RUTG", "NW", 14, 42], ["MICH", "MINN", 14, 20], ["PSU", "MICH", 18, 21], ["MICH", "RUTG", 28, 21], ["MSU", "MICH", 15, 6], ["MINN", "WASH", 27, 24], ["MINN", "PUR", 13, 41], ["NEB", "MSU", 31, 13], ["MD", "NEB", 23, 48], ["WASH", "NEB", 17, 10], ["WASH", "PUR", 38, 26], ["PSU", "WASH", 28, 25], ["PUR", "PSU", 17, 31], ["MD", "PUR", 34, 29], ["RUTG", "MD", 37, 30]], "remaining": [["ILL", "UCLA", 1], ["USC", "IND", 1], ["MICH", "ORE", 1], ["PUR", "IOWA", 1], ["WIS", "MD", 1], ["NW", "OSU", 1], ["MINN", "PSU", 1], ["NEB", "RUTG", 1], ["WASH", "MSU", 1], ["ORE", "MSU", 2], ["UCLA", "MICH", 2], ["IND", "WASH", 2], ["MD", "USC", 2], ["IOWA", "ILL", 2], ["WIS", "PUR", 2], ["OSU", "NEB", 2], ["NW", "MINN", 2], ["RUTG", "PSU", 2], ["USC", "UCLA", 3], ["PUR", "IND", 3], ["WASH", "ORE", 3], ["NEB", "IOWA", 3], ["ILL", "NW", 3], ["MINN", "WIS", 3], ["MICH", "OSU", 3], ["MSU", "RUTG", 3], ["PSU", "MD", 3]]}, "sec": {"name": "SEC", "short": "SEC", "site": "Atlanta", "weeks": ["Nov 13–14", "Nov 20–21", "Nov 27–28"], "teams": {"UGA": "Georgia", "ALA": "Alabama", "UK": "Kentucky", "TENN": "Tennessee", "TEX": "Texas", "MIZZ": "Missouri", "SCAR": "South Carolina", "MISS": "Ole Miss", "LSU": "LSU", "OKLA": "Oklahoma", "FLA": "Florida", "AUB": "Auburn", "MSST": "Mississippi State", "VAN": "Vanderbilt", "TXAM": "Texas A&M", "ARK": "Arkansas"}, "ovr": {"UGA": "8-1", "ALA": "7-2", "UK": "7-2", "TENN": "7-2", "TEX": "7-2", "MIZZ": "6-3", "SCAR": "6-3", "MISS": "6-3", "LSU": "6-3", "OKLA": "5-4", "FLA": "5-4", "AUB": "5-4", "MSST": "4-5", "VAN": "4-5", "TXAM": "4-5", "ARK": "3-6"}, "rank": {"UGA": 1, "ALA": 3, "TEX": 6, "TENN": 8, "UK": 11, "SCAR": 17, "MISS": 19, "LSU": 21, "MIZZ": 22}, "pub": {"AUB@MSST": 0.44}, "steps": ["H2H", "COMMON", "BESTCOMMON", "SOS", "UNRES"], "tieDef": "pct", "played": [["UGA", "ARK", 45, 17], ["OKLA", "UGA", 13, 41], ["VAN", "UGA", 14, 38], ["UGA", "ALA", 20, 17], ["AUB", "UGA", 27, 24], ["FLA", "UGA", 8, 27], ["UGA", "MISS", 42, 7], ["ALA", "UK", 45, 17], ["SCAR", "ALA", 18, 49], ["ALA", "MSST", 56, 23], ["ALA", "TENN", 10, 26], ["TXAM", "ALA", 20, 31], ["ALA", "LSU", 31, 13], ["UK", "TXAM", 31, 21], ["UK", "SCAR", 35, 34], ["LSU", "UK", 34, 35], ["UK", "OKLA", 21, 13], ["VAN", "UK", 17, 34], ["UK", "TENN", 6, 34], ["TEX", "TENN", 20, 17], ["AUB", "TENN", 14, 24], ["TENN", "ARK", 24, 17], ["TENN", "SCAR", 24, 27], ["TEX", "OKLA", 24, 27], ["FLA", "TEX", 27, 24], ["MISS", "TEX", 27, 34], ["MSST", "TEX", 3, 31], ["TEX", "MIZZ", 34, 20], ["MSST", "SCAR", 41, 34], ["SCAR", "FLA", 38, 19], ["SCAR", "OKLA", 42, 25], ["TXAM", "SCAR", 9, 17], ["LSU", "MISS", 24, 32], ["MISS", "FLA", 28, 52], ["MISS", "VAN", 52, 17], ["MIZZ", "MISS", 3, 31], ["AUB", "MISS", 15, 45], ["TXAM", "LSU", 6, 35], ["MSST", "LSU", 0, 31], ["LSU", "AUB", 38, 17], ["MIZZ", "MSST", 24, 31], ["FLA", "MIZZ", 17, 45], ["TXAM", "MIZZ", 6, 27], ["MIZZ", "ARK", 34, 10], ["OKLA", "MSST", 23, 15], ["OKLA", "FLA", 23, 7], ["FLA", "AUB", 44, 39], ["VAN", "AUB", 15, 21], ["ARK", "AUB", 23, 26], ["VAN", "MSST", 25, 23], ["ARK", "VAN", 31, 21], ["ARK", "TXAM", 7, 34]], "remaining": [["MIZZ", "UGA", 1], ["UGA", "SCAR", 2], ["ALA", "VAN", 1], ["AUB", "ALA", 3], ["FLA", "UK", 1], ["UK", "MIZZ", 2], ["TENN", "TXAM", 1], ["LSU", "TENN", 2], ["TENN", "VAN", 3], ["TEX", "LSU", 1], ["ARK", "TEX", 2], ["TEX", "TXAM", 3], ["SCAR", "ARK", 1], ["MISS", "OKLA", 1], ["MSST", "MISS", 3], ["LSU", "ARK", 3], ["OKLA", "MIZZ", 3], ["TXAM", "OKLA", 2], ["VAN", "FLA", 2], ["AUB", "MSST", 1]]}, "b12": {"name": "Big 12", "short": "Big 12", "site": "Arlington", "weeks": ["Nov 13–14", "Nov 20–21", "Nov 26–28"], "teams": {"UTAH": "Utah", "TTU": "Texas Tech", "HOU": "Houston", "BYU": "BYU", "ARIZ": "Arizona", "BAY": "Baylor", "OKST": "Oklahoma State", "ASU": "Arizona State", "CIN": "Cincinnati", "UCF": "UCF", "WVU": "West Virginia", "KSU": "Kansas State", "TCU": "TCU", "ISU": "Iowa State", "COLO": "Colorado", "KU": "Kansas"}, "ovr": {"UTAH": "9-0", "TTU": "8-1", "HOU": "7-2", "BYU": "7-2", "ARIZ": "7-2", "BAY": "6-3", "OKST": "6-3", "ASU": "5-4", "CIN": "5-4", "UCF": "5-4", "WVU": "5-4", "KSU": "4-5", "TCU": "4-5", "ISU": "4-5", "COLO": "3-6", "KU": "3-6"}, "rank": {"UTAH": 2, "BYU": 10, "TTU": 12, "HOU": 14, "ARIZ": 23, "OKST": 25}, "pub": {"HOU@COLO": 0.234, "CIN@ISU": 0.578}, "steps": ["H2H", "COMMON", "BESTCOMMON", "SOS", "WINS", "PROXY"], "tieDef": "pct", "played": [["UTAH", "ISU", 31, 17], ["KU", "UTAH", 24, 41], ["UTAH", "COLO", 27, 24], ["HOU", "UTAH", 13, 21], ["UTAH", "CIN", 49, 25], ["BYU", "UTAH", 20, 28], ["HOU", "TTU", 26, 28], ["TTU", "COLO", 29, 7], ["ASU", "TTU", 25, 53], ["TTU", "CIN", 24, 37], ["ARIZ", "TTU", 26, 34], ["WVU", "TTU", 48, 53], ["UCF", "HOU", 17, 27], ["HOU", "KSU", 35, 16], ["OKST", "HOU", 32, 35], ["CIN", "HOU", 24, 31], ["ARIZ", "BYU", 17, 28], ["BYU", "TCU", 17, 10], ["ISU", "BYU", 10, 24], ["BYU", "UCF", 31, 39], ["ASU", "BYU", 20, 27], ["CIN", "ARIZ", 7, 34], ["ARIZ", "WVU", 52, 31], ["ISU", "ARIZ", 3, 39], ["TCU", "ARIZ", 28, 29], ["COLO", "BAY", 13, 23], ["BAY", "ASU", 55, 19], ["TCU", "BAY", 17, 6], ["BAY", "KU", 24, 25], ["BAY", "UCF", 41, 9], ["ISU", "BAY", 31, 42], ["OKST", "WVU", 41, 24], ["UCF", "OKST", 28, 42], ["COLO", "OKST", 24, 57], ["OKST", "ISU", 49, 51], ["OKST", "KSU", 66, 28], ["KSU", "CIN", 26, 31], ["CIN", "WVU", 42, 45], ["WVU", "ISU", 42, 45], ["ASU", "KU", 24, 17], ["KU", "KSU", 24, 35], ["KU", "TCU", 16, 22], ["UCF", "KU", 33, 32], ["KSU", "ASU", 17, 28], ["COLO", "ASU", 10, 20], ["TCU", "UCF", 13, 21], ["WVU", "TCU", 24, 20], ["KSU", "COLO", 24, 27]], "remaining": [["UTAH", "ARIZ", 1], ["UTAH", "TCU", 2], ["WVU", "UTAH", 3], ["TTU", "OKST", 1], ["TTU", "BAY", 2], ["TCU", "TTU", 3], ["HOU", "COLO", 1], ["HOU", "WVU", 2], ["BAY", "HOU", 3], ["BAY", "BYU", 1], ["BYU", "KU", 2], ["CIN", "BYU", 3], ["ARIZ", "KSU", 2], ["ASU", "ARIZ", 3], ["OKST", "ASU", 2], ["KU", "OKST", 3], ["CIN", "ISU", 1], ["COLO", "CIN", 2], ["ISU", "UCF", 2], ["KSU", "ISU", 3], ["KU", "WVU", 1], ["ASU", "UCF", 1], ["UCF", "COLO", 3], ["KSU", "TCU", 1]]}, "acc": {"name": "ACC", "short": "ACC", "site": "Charlotte", "weeks": ["Nov 13–14", "Nov 20–21", "Nov 27–28"], "teams": {"MIA": "Miami", "WAKE": "Wake Forest", "SMU": "SMU", "DUKE": "Duke", "LOU": "Louisville", "VT": "Virginia Tech", "CLEM": "Clemson", "PITT": "Pittsburgh", "UNC": "North Carolina", "NCST": "NC State", "FSU": "Florida State", "BC": "Boston College", "SYR": "Syracuse", "STAN": "Stanford", "UVA": "Virginia", "CAL": "California", "GT": "Georgia Tech"}, "ovr": {"MIA": "8-1", "WAKE": "8-1", "SMU": "7-2", "DUKE": "7-2", "LOU": "6-3", "VT": "6-3", "CLEM": "6-3", "PITT": "6-3", "UNC": "5-4", "NCST": "4-5", "FSU": "4-5", "BC": "4-5", "SYR": "4-5", "STAN": "4-5", "UVA": "4-5", "CAL": "3-6", "GT": "2-7"}, "rank": {"MIA": 7, "WAKE": 13}, "pub": {"DUKE@MIA": 0.831, "FSU@PITT": 0.621}, "steps": ["H2H", "PROXY"], "tieDef": "acc", "played": [["MIA", "STAN", 45, 6], ["MIA", "WAKE", 33, 20], ["MIA", "CLEM", 41, 13], ["FSU", "MIA", 35, 43], ["PITT", "MIA", 23, 52], ["MIA", "UNC", 38, 35], ["WAKE", "LOU", 30, 27], ["STAN", "WAKE", 3, 57], ["WAKE", "NCST", 38, 14], ["WAKE", "CAL", 41, 7], ["UVA", "WAKE", 7, 51], ["SMU", "FSU", 27, 24], ["SMU", "LOU", 31, 41], ["BC", "SMU", 16, 25], ["UVA", "SMU", 13, 23], ["CAL", "SMU", 20, 59], ["SMU", "SYR", 27, 30], ["VT", "SMU", 28, 51], ["STAN", "DUKE", 7, 35], ["DUKE", "GT", 25, 28], ["UNC", "DUKE", 24, 20], ["DUKE", "UVA", 19, 16], ["BC", "DUKE", 2, 47], ["DUKE", "NCST", 41, 3], ["LOU", "NCST", 28, 31], ["FSU", "LOU", 20, 44], ["LOU", "SYR", 34, 26], ["STAN", "LOU", 24, 52], ["LOU", "GT", 44, 17], ["VT", "BC", 21, 14], ["PITT", "VT", 35, 33], ["VT", "CAL", 20, 25], ["GT", "VT", 24, 34], ["VT", "CLEM", 20, 16], ["UNC", "CLEM", 20, 28], ["CLEM", "CAL", 24, 10], ["CLEM", "FSU", 36, 24], ["CLEM", "SYR", 18, 13], ["SYR", "PITT", 13, 27], ["UNC", "PITT", 21, 17], ["PITT", "BC", 21, 27], ["GT", "PITT", 11, 34], ["SYR", "UNC", 31, 30], ["NCST", "UVA", 8, 34], ["NCST", "STAN", 28, 31], ["CAL", "NCST", 10, 31], ["UVA", "FSU", 7, 38], ["FSU", "BC", 31, 24], ["BC", "GT", 49, 27], ["CAL", "SYR", 21, 18], ["SYR", "UVA", 25, 28], ["GT", "STAN", 27, 34]], "remaining": [["DUKE", "MIA", 1], ["VT", "MIA", 2], ["BC", "MIA", 3], ["WAKE", "SMU", 1], ["WAKE", "GT", 2], ["DUKE", "WAKE", 3], ["SMU", "STAN", 3], ["CLEM", "DUKE", 2], ["LOU", "UNC", 1], ["PITT", "LOU", 2], ["STAN", "VT", 1], ["UVA", "VT", 3], ["GT", "CLEM", 1], ["FSU", "PITT", 1], ["PITT", "CAL", 3], ["UNC", "UVA", 2], ["NCST", "UNC", 3], ["SYR", "NCST", 1], ["NCST", "FSU", 2], ["SYR", "BC", 2], ["CAL", "UVA", 1], ["STAN", "CAL", 2]]}};
+const AN={"b1g": {"tabs": ["UCLA", "IND", "ORE", "OSU", "WIS", "IOWA", "USC"], "paths": {"UCLA": {}, "IND": {}, "ORE": {"IND@WASH": "WASH"}, "OSU": {"USC@IND": "USC"}, "WIS": {"ORE@MSU": "MSU", "IND@WASH": "WASH", "OSU@NEB": "NEB"}, "IOWA": {"ORE@MSU": "MSU", "IND@WASH": "WASH", "WIS@PUR": "PUR", "OSU@NEB": "NEB"}, "USC": {"USC@IND": "USC", "USC@UCLA": "USC"}}}, "sec": {"tabs": ["UGA", "ALA", "TENN", "TEX", "UK", "MISS"], "paths": {"UGA": {}, "ALA": {"TEX@LSU": "TEX"}, "TENN": {}, "TEX": {"LSU@TENN": "LSU", "TEX@LSU": "TEX"}, "UK": {"UGA@SCAR": "SCAR", "UK@MIZZ": "UK"}, "MISS": {"AUB@ALA": "AUB", "LSU@TENN": "LSU"}}}, "b12": {"tabs": ["UTAH", "TTU", "OKST", "ARIZ", "HOU", "BYU", "BAY"], "paths": {"UTAH": {}, "TTU": {"TTU@OKST": "TTU", "BAY@BYU": "BAY"}, "OKST": {"BAY@BYU": "BAY"}, "ARIZ": {"TTU@OKST": "TTU"}, "HOU": {}, "BYU": {"BAY@HOU": "BAY"}, "BAY": {"BAY@HOU": "BAY", "BAY@BYU": "BAY"}}}, "acc": {"tabs": ["MIA", "WAKE", "SMU", "LOU", "DUKE"], "paths": {"MIA": {}, "WAKE": {}, "SMU": {"WAKE@SMU": "SMU", "LOU@UNC": "UNC"}, "LOU": {"WAKE@SMU": "SMU", "DUKE@WAKE": "DUKE"}, "DUKE": {"DUKE@MIA": "DUKE", "DUKE@WAKE": "DUKE", "LOU@UNC": "UNC"}}}};
+const CONF_ORDER=["b1g","sec","b12","acc"];
+const CONFS=Object.fromEntries(CONF_ORDER.map(k=>[k,prepConf(k,RAW[k])]));
+// Rules text per conference
+const RULES={
+ b1g:"Top two teams by Big Ten record meet in Indianapolis. Ties: head-to-head, record against common conference opponents, record against the best common opponents in order of finish, combined conference win % of each team's opponents, then the SportSource Analytics rating, then a random draw.",
+ sec:"Top two teams by SEC record meet in Atlanta. Ties: head-to-head, record against common conference opponents, record against the highest-placed common opponent working down the standings, cumulative conference win % of all opponents, capped relative scoring margin, then a random draw. Scoring margin depends on final scores this tool can't predict, so ties that reach it are split evenly.",
+ b12:"Top two teams by Big 12 record meet in Arlington. Ties: head-to-head, record against common conference opponents, record against the best common opponents in order of finish, combined conference win % of opponents, total wins in a 12-game season, the SportSource Analytics rating, then a coin toss. Total wins here are current overall wins plus remaining conference wins; the rule counting only one FCS win isn't applied.",
+ acc:"Top two teams by ACC win % meet in Charlotte, under the ACC's new 2026 rules. Twelve teams play nine conference games and five (Clemson, North Carolina, Boston College, Florida State, Georgia Tech) play eight, so an eight-game team with the same number of wins or losses as the leader counts as tied. Ties: head-to-head (with three or more teams, best record among them if they all played each other; otherwise a team that beat all the others gets in and one that lost to all of them drops out), then the SportSource Analytics Team Success Ranking, then a draw."
+};
+// School colors: primary, secondary. Overrides fix black primaries in dark mode and pick text on the accent.
+const COLORS={ORE:["#154733","#FEE123"],UCLA:["#2D68C4","#F2A900"],IND:["#990000","#C9B98F"],OSU:["#BB0000","#666666"],WIS:["#C5050C","#282728"],IOWA:["#000000","#FFCD00"],USC:["#990000","#FFC72C"],
+ UGA:["#BA0C2F","#000000"],ALA:["#9E1B32","#828A8F"],TENN:["#FF8200","#58595B"],TEX:["#BF5700","#333F48"],UK:["#0033A0","#C8D0DC"],MISS:["#CE1126","#14213D"],
+ UTAH:["#CC0000","#1A1A1A"],TTU:["#CC0000","#000000"],OKST:["#FF7300","#000000"],ARIZ:["#003366","#CC0033"],HOU:["#C8102E","#888B8D"],BYU:["#002E5D","#A7B4C2"],BAY:["#154734","#FFB81C"],
+ MIA:["#005030","#F47321"],WAKE:["#000000","#9E7E38"],SMU:["#0033A0","#C8102E"],LOU:["#AD0000","#000000"],DUKE:["#003087","#C5CDD8"]};
+const OVERRIDE={IOWA:{l:{on:"#FFCD00"},d:{accent:"#FFCD00",on:"#000000"}},WAKE:{l:{on:"#CEB888"},d:{accent:"#CEB888",on:"#000000"}}};
+const DEFAULT_TEAM={b1g:"ORE"};
+const SLUG=t=>t.toLowerCase();
+const CSLUG={b1g:"big-ten",sec:"sec",b12:"big-12",acc:"acc"};
+
+// ---------- color helpers ----------
+const hx=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+const toHex=a=>"#"+a.map(v=>Math.round(Math.max(0,Math.min(255,v))).toString(16).padStart(2,"0")).join("");
+const mix=(a,b,t)=>toHex(hx(a).map((v,i)=>v*(1-t)+hx(b)[i]*t));
+const lum=h=>{const c=hx(h).map(v=>{v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);});return 0.2126*c[0]+0.7152*c[1]+0.0722*c[2];};
+const contrast=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+0.05)/(Math.min(x,y)+0.05);};
+function fitTo(c,bg,target,toward){let t=0,out=c;while(contrast(out,bg)<target&&t<1){t+=0.05;out=mix(c,toward,t);}return out;}
+function themeFor(t,dark){const [p,s]=COLORS[t]||["#0f6b3a","#e0b100"];const o=(OVERRIDE[t]||{})[dark?"d":"l"]||{};
+  if(!dark){const accent=o.accent||fitTo(p,"#ffffff",3,"#000000");const on=o.on||(contrast("#ffffff",accent)>=contrast("#111111",accent)?"#ffffff":"#111111");
+    return {accent,soft:mix(accent,"#ffffff",0.88),gold:s,goldSoft:mix(s,"#ffffff",0.8),on};}
+  const accent=o.accent||fitTo(p,"#17221b",4.5,"#ffffff");const gold=fitTo(s,"#17221b",3,"#ffffff");
+  const on=o.on||(contrast("#ffffff",accent)>=contrast("#0b0b0b",accent)?"#ffffff":"#0b0b0b");
+  return {accent,soft:mix(accent,"#0f1712",0.78),gold,goldSoft:mix(gold,"#0f1712",0.8),on};}
+function isDark(){const t=document.documentElement.getAttribute("data-theme");if(t==="dark")return true;if(t==="light")return false;
+  try{return window.matchMedia("(prefers-color-scheme: dark)").matches;}catch(e){return false;}}
+
+// ---------- state ----------
+let conf="b1g";
+const teamSel=Object.fromEntries(CONF_ORDER.map(k=>[k,DEFAULT_TEAM[k]||AN[k].tabs[0]]));
+const picks=Object.fromEntries(CONF_ORDER.map(k=>[k,new Array(CONFS[k].remaining.length).fill(null)]));
+let mode="model",lastSim=null;
+const C=()=>CONFS[conf];const team=()=>teamSel[conf];const P=()=>picks[conf];
+const NAME=t=>C().names[t];
+const rk=t=>C().rank[t]?`<span class="rk">#${C().rank[t]}</span>`:"";
+const nm=t=>(C().rank[t]?`#${C().rank[t]} `:"")+NAME(t);
+const nmHtml=t=>`${rk(t)}${NAME(t)}`;
+const CONFREC=t=>`${C().R0.rec[t].w}-${C().R0.rec[t].l}`;
+const pHome=i=>mode==="coin"?0.5:C().pHome[i];
+const pWin=(i,t)=>C().remaining[i][1]===t?C().pHome[i]:1-C().pHome[i];
+const FAV=k=>CONFS[k].remaining.map(([a,h],i)=>CONFS[k].pHome[i]>=0.5?h:a);
 function pct(x){if(x>0&&x<0.005)return "<1%";if(x<1&&x>0.995)return ">99%";return Math.round(x*100)+"%";}
 function pairLabel(k){return k.split("|").map(nm).join(" vs. ");}
 function ordinal(n){const s=["th","st","nd","rd"],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0]);}
+setNamer(t=>NAME(t));
 
-function renderTabs(){
-  const el=document.getElementById("tabs");el.innerHTML="";
-  for(const [t,slug] of TABS){const b=document.createElement("button");b.type="button";b.className="tab";b.id="tab-"+slug;
-    b.setAttribute("role","tab");b.setAttribute("aria-selected",t===team?"true":"false");
-    const odds=lastSim?pct(lastSim.inCount[t]/lastSim.N):"--";
-    b.innerHTML=`<span class="tn">${nmHtml(t)}</span><span class="to num">${odds}<small>${CONF(t)} B1G</small></span>`;
-    b.onclick=()=>{if(location.hash!=="#"+slug){try{location.hash=slug;}catch(e){selectTeam(t);}}else selectTeam(t);};
-    el.appendChild(b);}
+function applyTheme(){const th=themeFor(team(),isDark());const st=document.documentElement.style;
+  st.setProperty("--accent",th.accent);st.setProperty("--accent-soft",th.soft);st.setProperty("--gold",th.gold);st.setProperty("--gold-soft",th.goldSoft);st.setProperty("--on-accent",th.on);}
+try{window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{applyTheme();renderTabs();});}catch(e){}
+try{new MutationObserver(()=>{applyTheme();renderTabs();}).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});}catch(e){}
+
+// ---------- routing ----------
+function go(k,t){const h=`${CSLUG[k]}-${SLUG(t)}`;if(location.hash!=="#"+h){try{location.hash=h;return;}catch(e){}}conf=k;teamSel[k]=t;update();}
+function fromHash(){const h=(location.hash||"").replace("#","");
+  for(const k of CONF_ORDER){const pre=CSLUG[k]+"-";if(h.startsWith(pre)){const t=AN[k].tabs.find(x=>SLUG(x)===h.slice(pre.length));if(t){conf=k;teamSel[k]=t;return;}}
+    if(h===CSLUG[k]){conf=k;return;}}
+  // legacy single-conference links like #oregon
+  const legacy={ucla:"UCLA",indiana:"IND",oregon:"ORE","ohio-state":"OSU",wisconsin:"WIS",iowa:"IOWA",usc:"USC"};
+  if(legacy[h]){conf="b1g";teamSel.b1g=legacy[h];}
 }
-function selectTeam(t){team=t;update();}
-function teamFromHash(){const h=(location.hash||"").replace("#","");const f=TABS.find(x=>x[1]===h);return f?f[0]:DEFAULT_TAB;}
-window.addEventListener("hashchange",()=>selectTeam(teamFromHash()));
+window.addEventListener("hashchange",()=>{fromHash();update();});
 
+// ---------- rendering ----------
+function renderConfs(){const el=document.getElementById("confs");el.innerHTML="";
+  for(const k of CONF_ORDER){const b=document.createElement("button");b.type="button";b.className="conf";b.id="conf-"+CSLUG[k];
+    b.setAttribute("aria-pressed",k===conf?"true":"false");b.textContent=CONFS[k].name;
+    b.onclick=()=>go(k,teamSel[k]);el.appendChild(b);}}
+function renderTabs(){const el=document.getElementById("tabs");el.innerHTML="";const dark=isDark();
+  for(const t of AN[conf].tabs){const b=document.createElement("button");b.type="button";b.className="tab";b.id="tab-"+SLUG(t);
+    b.setAttribute("role","tab");b.setAttribute("aria-selected",t===team()?"true":"false");
+    b.style.setProperty("--tc",themeFor(t,dark).accent);
+    const odds=lastSim?pct(lastSim.inCount[t]/lastSim.N):"--";
+    b.innerHTML=`<span class="tn">${nmHtml(t)}</span><span class="to num">${odds}<small>${CONFREC(t)} ${C().short}</small></span>`;
+    b.onclick=()=>go(conf,t);el.appendChild(b);}}
 function renderGames(){
-  const weeks={};REMAINING.forEach((g,i)=>{(weeks[g[2]]=weeks[g[2]]||[]).push(i);});
-  const el=document.getElementById("weeks");el.innerHTML="";
-  const score=i=>{const [a,h]=REMAINING[i];let s=0;if(a===team||h===team)s+=100;if(TABS.some(x=>x[0]===a))s+=10;if(TABS.some(x=>x[0]===h))s+=10;return s;};
-  for(const [wk,ids] of Object.entries(weeks)){
-    const div=document.createElement("div");div.className="week";
-    div.innerHTML=`<h3>${wk}</h3>`;const list=document.createElement("div");list.className="games";
-    ids.sort((x,y)=>score(y)-score(x));
-    for(const i of ids){const [a,h]=REMAINING[i];const ph=pHome(i);
-      const row=document.createElement("div");row.className="game"+((a===team||h===team)?" ore":"");
-      const mk=(t,p,side)=>{const b=document.createElement("button");b.className="pick "+side;b.type="button";
-        b.id=`g${i}-${t}`;const st=picks[i]===t?"won":picks[i]?"lost":"";if(st)b.classList.add(st);
-        b.setAttribute("aria-pressed",picks[i]===t?"true":"false");
-        b.innerHTML=`<span class="tm">${nmHtml(t)}<span class="rec num">${OVR[t]}, ${CONF(t)} B1G</span></span><span class="pr num">${Math.round(p*100)}%</span>`;
-        b.onclick=()=>{picks[i]=picks[i]===t?null:t;update();};return b;};
-      row.appendChild(mk(a,1-ph,"away"));
-      const at=document.createElement("span");at.className="at";at.textContent="at";row.appendChild(at);
+  const c=C(),tm=team(),pk=P();const weeks={};c.remaining.forEach((g,i)=>{(weeks[g[2]]=weeks[g[2]]||[]).push(i);});
+  const el=document.getElementById("weeks");el.innerHTML="";const tabs=AN[conf].tabs;
+  const score=i=>{const [a,h]=c.remaining[i];let s=0;if(a===tm||h===tm)s+=100;if(tabs.includes(a))s+=10;if(tabs.includes(h))s+=10;return s;};
+  for(const wk of Object.keys(weeks).sort()){const ids=weeks[wk];
+    const div=document.createElement("div");div.className="week";div.innerHTML=`<h3>${c.weeks[wk-1]}</h3>`;
+    const list=document.createElement("div");list.className="games";ids.sort((x,y)=>score(y)-score(x));
+    for(const i of ids){const [a,h]=c.remaining[i];const ph=pHome(i);
+      const row=document.createElement("div");row.className="game"+((a===tm||h===tm)?" ore":"");
+      const mk=(t,p,side)=>{const b=document.createElement("button");b.className="pick "+side;b.type="button";b.id=`g${i}-${t}`;
+        const st=pk[i]===t?"won":pk[i]?"lost":"";if(st)b.classList.add(st);b.setAttribute("aria-pressed",pk[i]===t?"true":"false");
+        b.innerHTML=`<span class="tm">${nmHtml(t)}<span class="rec num">${c.ovr[t]}, ${CONFREC(t)} ${c.short}</span></span><span class="pr num">${Math.round(p*100)}%</span>`;
+        b.onclick=()=>{pk[i]=pk[i]===t?null:t;update();};return b;};
+      row.appendChild(mk(a,1-ph,"away"));const at=document.createElement("span");at.className="at";at.textContent="at";row.appendChild(at);
       row.appendChild(mk(h,ph,"home"));list.appendChild(row);}
     div.appendChild(list);el.appendChild(div);}
 }
-
 function simulate(N){
-  const open=[];for(let i=0;i<REMAINING.length;i++)if(!picks[i])open.push(i);
-  const lev=open.map(()=>({h:0,hi:0,a:0,ai:0}));
-  const pairs={};const inCount={};ALL.forEach(t=>inCount[t]=0);
-  for(let s=0;s<N;s++){const g=BASE.slice();const outc=[];
-    for(let i=0;i<REMAINING.length;i++){const [a,h]=REMAINING[i];let w=picks[i];
-      if(!w){w=Math.random()<pHome(i)?h:a;}g.push({w,l:w===a?h:a});outc.push(w===h);}
-    const r=titleGame(ALL,g);let tp;
-    if(r.unresolved&&r.coin){const fixedIn=r.pair.filter(t=>!r.coin.includes(t));
-      fixedIn.forEach(t=>inCount[t]++);r.coin.forEach(t=>inCount[t]+=r.coinK/r.coin.length);
-      tp=fixedIn.includes(team)?1:r.coin.includes(team)?r.coinK/r.coin.length:0;}
-    else{r.pair.forEach(t=>inCount[t]++);tp=r.pair.includes(team)?1:0;}
-    const k=r.pair.slice().sort((x,y)=>ALL.indexOf(x)-ALL.indexOf(y)).join("|");pairs[k]=(pairs[k]||0)+1;
-    open.forEach((i,j)=>{if(outc[i]){lev[j].h++;lev[j].hi+=tp;}else{lev[j].a++;lev[j].ai+=tp;}});
-  }
-  return {p:inCount[team]/N,pairs,inCount,open,lev,N};
+  const c=C(),tm=team(),pk=P();const open=[];c.remaining.forEach((g,i)=>{if(!pk[i])open.push(i);});
+  const lev=open.map(()=>({h:0,hi:0,a:0,ai:0}));const pairs={};const inCount=Object.fromEntries(c.teams.map(t=>[t,0]));
+  for(let s=0;s<N;s++){const g=c.base.slice();const outc=[];
+    for(let i=0;i<c.remaining.length;i++){const [a,h]=c.remaining[i];let w=pk[i];if(!w)w=Math.random()<pHome(i)?h:a;g.push({w,l:w===a?h:a});outc.push(w===h);}
+    const r=titleGame(c,g);let tp;
+    if(r.unresolved&&r.coin){const fixedIn=r.pair.filter(t=>!r.coin.includes(t));fixedIn.forEach(t=>inCount[t]++);r.coin.forEach(t=>inCount[t]+=r.coinK/r.coin.length);
+      tp=fixedIn.includes(tm)?1:r.coin.includes(tm)?r.coinK/r.coin.length:0;}
+    else{r.pair.forEach(t=>inCount[t]++);tp=r.pair.includes(tm)?1:0;}
+    const k=r.pair.slice().sort((x,y)=>c.teams.indexOf(x)-c.teams.indexOf(y)).join("|");pairs[k]=(pairs[k]||0)+1;
+    open.forEach((i,j)=>{if(outc[i]){lev[j].h++;lev[j].hi+=tp;}else{lev[j].a++;lev[j].ai+=tp;}});}
+  return {pairs,inCount,open,lev,N};
 }
-
-function exactResult(){const g=BASE.slice();REMAINING.forEach(([a,h],i)=>g.push({w:picks[i],l:picks[i]===a?h:a}));return titleGame(ALL,g);}
-
 function update(){
-  const T=TEAMS[team];
-  renderGames();
+  const c=C(),tm=team(),pk=P(),T=NAME(tm);
+  applyTheme();renderConfs();
+  document.getElementById("title").textContent=`${c.name} title game paths`;
   document.getElementById("pOut").textContent=`${T} wins out`;
-  const allPicked=picks.every(Boolean);
-  const pickedGames=BASE.slice();const left={};ALL.forEach(t=>left[t]=0);
-  REMAINING.forEach(([a,h],i)=>{if(picks[i])pickedGames.push({w:picks[i],l:picks[i]===a?h:a});else{left[a]++;left[h]++;}});
-  const R1=buildRecords(ALL,pickedGames);
+  renderGames();
+  const allPicked=pk.every(Boolean);
+  const pickedGames=c.base.slice();const left=Object.fromEntries(c.teams.map(t=>[t,0]));
+  c.remaining.forEach(([a,h],i)=>{if(pk[i])pickedGames.push({w:pk[i],l:pk[i]===a?h:a});else{left[a]++;left[h]++;}});
+  const R1=buildRecords(c.teams,pickedGames);
   let sim=null,exact=null;
-  if(allPicked){exact=exactResult();
-    const inCount={};ALL.forEach(t=>inCount[t]=0);
-    exact.pair.forEach(t=>inCount[t]=1);
-    if(exact.unresolved&&exact.coin){exact.pair.forEach(t=>{if(exact.coin.includes(t))inCount[t]=0;});exact.coin.forEach(t=>inCount[t]=exact.coinK/exact.coin.length);}
-    lastSim={inCount,N:1};}
+  if(allPicked){exact=titleGame(c,pickedGames);const inCount=Object.fromEntries(c.teams.map(t=>[t,0]));exact.pair.forEach(t=>inCount[t]=1);
+    if(exact.unresolved&&exact.coin){exact.coin.forEach(t=>inCount[t]=exact.coinK/exact.coin.length);}lastSim={inCount,N:1};}
   else{sim=simulate(20000);lastSim=sim;}
   renderTabs();
-  const p=lastSim.inCount[team]/lastSim.N;
-  // summary tiles
-  document.getElementById("heroLab").textContent=`${T} makes the title game`;
+  const p=lastSim.inCount[tm]/lastSim.N;
+  document.getElementById("heroLab").textContent=`${T} makes the ${c.name} title game`;
   document.getElementById("teamOdds").textContent=allPicked?(p===1?"YES":p===0?"NO":pct(p)):pct(p);
   document.getElementById("teamBar").style.width=(p*100).toFixed(1)+"%";
-  const nPicked=picks.filter(Boolean).length;
-  document.getElementById("teamSub").textContent=allPicked?"Every game picked: this is the exact outcome.":`${nPicked} of 27 games picked, the rest simulated (${mode==="coin"?"50/50":"model odds"}).`;
+  const nPicked=pk.filter(Boolean).length;
+  document.getElementById("teamSub").textContent=allPicked?"Every game picked: this is the exact outcome.":`${nPicked} of ${c.remaining.length} games picked, the rest simulated (${mode==="coin"?"50/50":"model odds"}).`;
   let topK,topV;
-  if(allPicked){topK=exact.pair.slice().sort((x,y)=>exact.R.pct(y)-exact.R.pct(x)||ALL.indexOf(x)-ALL.indexOf(y)).join("|");topV=1;}
+  if(allPicked){topK=exact.pair.slice().sort((x,y)=>exact.R.pct(y)-exact.R.pct(x)||c.teams.indexOf(x)-c.teams.indexOf(y)).join("|");topV=1;}
   else{[topK,topV]=Object.entries(sim.pairs).sort((a,b)=>b[1]-a[1])[0];topV/=sim.N;}
   document.getElementById("topPair").textContent=pairLabel(topK);
-  document.getElementById("topPairSub").textContent=allPicked?"Locked in by your picks.":`${pct(topV)} of simulations`;
-  // right-now tile
-  const place=1+ALL.filter(x=>R_NOW.pct(x)>R_NOW.pct(team)).length;
-  const tied=ALL.filter(x=>x!==team&&R_NOW.pct(x)===R_NOW.pct(team)).length;
-  const rem=REMAINING.map((g,i)=>[g,i]).filter(([g])=>g[0]===team||g[1]===team)
-    .map(([[a,h,wk]])=>a===team?`at ${TEAMS[h]}`:`${TEAMS[a]} (home)`);
+  document.getElementById("topPairSub").textContent=allPicked?`Locked in by your picks. Game is in ${c.site}.`:`${pct(topV)} of simulations · in ${c.site}`;
+  const place=1+c.teams.filter(x=>c.R0.pct(x)>c.R0.pct(tm)).length;const tied=c.teams.filter(x=>x!==tm&&c.R0.pct(x)===c.R0.pct(tm)).length;
+  const rem=c.remaining.filter(g=>g[0]===tm||g[1]===tm).map(([a,h])=>a===tm?`at ${NAME(h)}`:`${NAME(a)} (home)`);
   document.getElementById("nowLab").textContent=`${T} right now`;
-  document.getElementById("nowBig").textContent=(RANK[team]?`#${RANK[team]} · `:"")+OVR[team];
-  document.getElementById("nowSub").textContent=`${CONF(team)} in the Big Ten, ${tied?"tied for ":""}${ordinal(place)} in the standings. Left: ${rem.join(", ")}.`;
-  // path note
-  const path=PATHS[team]||{};const ups=Object.entries(path);
+  document.getElementById("nowBig").textContent=(c.rank[tm]?`#${c.rank[tm]} · `:"")+c.ovr[tm];
+  document.getElementById("nowSub").textContent=`${CONFREC(tm)} in the ${c.name}, ${tied?"tied for ":""}${ordinal(place)} in the standings. Left: ${rem.length?rem.join(", "):"no conference games"}.`;
+  const path=AN[conf].paths[tm]||{};const ups=Object.entries(path);
   document.getElementById("pathNote").innerHTML=ups.length
-    ?`<b>Most likely way in for ${T}:</b> favorites win every other game, plus ${ups.map(([k,w])=>{const i=REMAINING.findIndex(g=>g[0]+"@"+g[1]===k);const [a,h]=REMAINING[i];return `${TEAMS[w]} over ${TEAMS[w===a?h:a]} (${Math.round(pWin(i,w)*100)}%)`;}).join(", ")}.`
+    ?`<b>Most likely way in for ${T}:</b> favorites win every other game, plus ${ups.map(([k,w])=>{const i=c.remaining.findIndex(g=>g[0]+"@"+g[1]===k);const [a,h]=c.remaining[i];return `${NAME(w)} over ${NAME(w===a?h:a)} (${Math.round(pWin(i,w)*100)}%)`;}).join(", ")}.`
     :`<b>Most likely way in for ${T}:</b> favorites win every game. No upsets needed.`;
   // standings
-  const order=ALL.slice().sort((a,b)=>(R1.rec[b].w-R1.rec[b].l+left[b]*0.001)-(R1.rec[a].w-R1.rec[a].l+left[a]*0.001));
+  const order=c.teams.slice().sort((a,b)=>(R1.pct(b)-R1.pct(a))||(R1.rec[b].w-R1.rec[a].w)||(c.R0.pct(b)-c.R0.pct(a)));
   const sb=document.getElementById("stand");sb.innerHTML="";
-  for(const t of order){const tr=document.createElement("tr");
-    const inn=lastSim.inCount[t]/lastSim.N;
-    if(t===team)tr.className="me";if(allPicked&&exact.pair.includes(t))tr.classList.add("in");
-    let tg;
-    if(allPicked) tg=(exact.unresolved&&exact.coin&&exact.coin.includes(t))?'<span class="chip">coin flip</span>':exact.pair.includes(t)?'<span class="chip in">IN</span>':'';
+  for(const t of order){const tr=document.createElement("tr");const inn=lastSim.inCount[t]/lastSim.N;
+    if(t===tm)tr.className="me";if(allPicked&&exact.pair.includes(t))tr.classList.add("in");
+    let tg;if(allPicked)tg=(exact.unresolved&&exact.coin&&exact.coin.includes(t))?'<span class="chip">coin flip</span>':exact.pair.includes(t)?'<span class="chip in">IN</span>':'';
     else tg=inn>=0.9995?'<span class="chip in">LOCK</span>':inn===0?'<span class="chip out">OUT</span>':`<span class="num">${pct(inn)}</span>`;
-    tr.innerHTML=`<td>${nmHtml(t)}</td><td class="r num">${OVR[t]}</td><td class="r num">${CONF(t)}</td><td class="r num">${R1.rec[t].w}-${R1.rec[t].l}</td><td class="r num">${left[t]||""}</td><td class="r">${tg}</td>`;
+    tr.innerHTML=`<td>${nmHtml(t)}</td><td class="r num">${c.ovr[t]}</td><td class="r num">${CONFREC(t)}</td><td class="r num">${R1.rec[t].w}-${R1.rec[t].l}</td><td class="r num">${left[t]||""}</td><td class="r">${tg}</td>`;
     sb.appendChild(tr);}
+  document.getElementById("confNow").textContent=`${c.short} now`;
   // verdict
   const vp=document.getElementById("verdictPanel");
-  if(allPicked){const yes=exact.pair.includes(team)&&!(exact.unresolved&&exact.coin&&exact.coin.includes(team));
-    const coin=exact.unresolved&&exact.coin&&exact.coin.includes(team);
-    const ordered=exact.pair.slice().sort((x,y)=>exact.R.pct(y)-exact.R.pct(x)||ALL.indexOf(x)-ALL.indexOf(y));
+  if(allPicked){const coin=exact.unresolved&&exact.coin&&exact.coin.includes(tm);const yes=exact.pair.includes(tm)&&!coin;
+    const ordered=exact.pair.slice().sort((x,y)=>exact.R.pct(y)-exact.R.pct(x)||c.teams.indexOf(x)-c.teams.indexOf(y));
     const notes=exact.notes.length?exact.notes:["No tiebreaker needed: the top two finished alone."];
     vp.innerHTML=`<h2>Your scenario</h2><div class="verdict ${yes?"yes":coin?"":"no"}"><div class="head">${pairLabel(ordered.join("|"))}</div>
-      <div>${yes?`${T} is in.`:coin?`${T} is in a tie only the SportSource rating can break.`:`${T} misses the title game.`} Final Big Ten records: ${ordered.map(t=>`${nm(t)} ${exact.R.rec[t].w}-${exact.R.rec[t].l}`).join(", ")}${ordered.includes(team)?"":`; ${T} ${exact.R.rec[team].w}-${exact.R.rec[team].l}`}.</div>
+      <div>${yes?`${T} is in.`:coin?`${T} is in a tie this tool can't break.`:`${T} misses the title game.`} Final ${c.short} records: ${ordered.map(t=>`${nm(t)} ${exact.R.rec[t].w}-${exact.R.rec[t].l}`).join(", ")}${ordered.includes(tm)?"":`; ${T} ${exact.R.rec[tm].w}-${exact.R.rec[tm].l}`}.</div>
       <ul>${notes.map(n=>`<li>${n}</li>`).join("")}</ul></div>`;
-  } else {
-    const rows=Object.entries(sim.pairs).sort((a,b)=>b[1]-a[1]).slice(0,6);
-    vp.innerHTML=`<h2>Likely title games</h2><div class="matchups">${rows.map(([k,v])=>`<div class="mrow ${k.split("|").includes(team)?"has":""}"><div style="display:grid;gap:3px"><span>${pairLabel(k)}</span><div class="bar"><i style="width:${(v/sim.N*100).toFixed(1)}%"></i></div></div><span class="num" style="text-align:right">${pct(v/sim.N)}</span></div>`).join("")}</div>
-    <p class="note" style="margin:0">Pick all 27 games to see the exact tiebreaker path.</p>`;
-  }
+  }else{const rows=Object.entries(sim.pairs).sort((a,b)=>b[1]-a[1]).slice(0,6);
+    vp.innerHTML=`<h2>Likely title games</h2><div class="matchups">${rows.map(([k,v])=>`<div class="mrow ${k.split("|").includes(tm)?"has":""}"><div style="display:grid;gap:3px"><span>${pairLabel(k)}</span><div class="bar"><i style="width:${(v/sim.N*100).toFixed(1)}%"></i></div></div><span class="num" style="text-align:right">${pct(v/sim.N)}</span></div>`).join("")}</div>
+    <p class="note" style="margin:0">Pick all ${c.remaining.length} games to see the exact tiebreaker path.</p>`;}
   // rooting guide
   document.getElementById("rootHead").textContent=`${T} fan's rooting guide`;
   const rootEl=document.getElementById("root");
-  if(allPicked){rootEl.innerHTML='<p class="note" style="margin:0">Every game is picked. Clear a pick to see what it means for this team.</p>';}
-  else{
-    const rows=sim.open.map((i,j)=>{const L=sim.lev[j];const ph=L.h?L.hi/L.h:null,pa=L.a?L.ai/L.a:null;
-      if(ph===null||pa===null)return null;const [a,h]=REMAINING[i];const rootFor=ph>=pa?h:a;
-      return {i,a,h,rootFor,hi:Math.max(ph,pa),lo:Math.min(ph,pa),d:Math.abs(ph-pa)};}).filter(Boolean)
-      .filter(r=>r.d>=0.01).sort((x,y)=>y.d-x.d).slice(0,8);
-    rootEl.innerHTML=rows.length?rows.map(r=>{const own=r.rootFor===team;const opp=r.rootFor===r.h?r.a:r.h;
-      return `<div class="rootrow"><div><b>${nmHtml(r.rootFor)}</b> <span class="note num">(${OVR[r.rootFor]})</span> ${own?"beats":"over"} ${nmHtml(opp)} <span class="note num">(${OVR[opp]})</span> <span class="note">${REMAINING[r.i][2]}</span>${own?' <span class="flag">own game</span>':""}</div><div class="swing">${pct(r.lo)} → <b style="color:var(--ink)">${pct(r.hi)}</b></div></div>`;}).join("")
-      :(p===0?'<p class="note" style="margin:0">With these picks, no unpicked game can get this team in.</p>':'<p class="note" style="margin:0">None of the unpicked games move this team\'s odds much anymore.</p>');
-  }
+  if(allPicked)rootEl.innerHTML='<p class="note" style="margin:0">Every game is picked. Clear a pick to see what it means for this team.</p>';
+  else{const rows=sim.open.map((i,j)=>{const L=sim.lev[j];const ph=L.h?L.hi/L.h:null,pa=L.a?L.ai/L.a:null;if(ph===null||pa===null)return null;
+      const [a,h]=c.remaining[i];return {i,a,h,rootFor:ph>=pa?h:a,hi:Math.max(ph,pa),lo:Math.min(ph,pa),d:Math.abs(ph-pa)};}).filter(Boolean).filter(r=>r.d>=0.01).sort((x,y)=>y.d-x.d).slice(0,8);
+    rootEl.innerHTML=rows.length?rows.map(r=>{const own=r.rootFor===tm;const opp=r.rootFor===r.h?r.a:r.h;
+      return `<div class="rootrow"><div><b>${nmHtml(r.rootFor)}</b> <span class="note num">(${c.ovr[r.rootFor]})</span> ${own?"beats":"over"} ${nmHtml(opp)} <span class="note num">(${c.ovr[opp]})</span> <span class="note">${c.weeks[c.remaining[r.i][2]-1]}</span>${own?' <span class="flag">own game</span>':""}</div><div class="swing">${pct(r.lo)} → <b style="color:var(--ink)">${pct(r.hi)}</b></div></div>`;}).join("")
+      :(p===0?'<p class="note" style="margin:0">With these picks, no unpicked game can get this team in.</p>':'<p class="note" style="margin:0">None of the unpicked games move this team\'s odds much anymore.</p>');}
+  document.getElementById("rules").textContent=RULES[conf];
+  document.getElementById("tabNote").textContent=`Tabs cover ${c.name} teams at 1% or better with no games picked: ${AN[conf].tabs.map(NAME).join(", ")}.`;
 }
-
-function setPicks(fn){for(let i=0;i<REMAINING.length;i++)picks[i]=fn(i);update();}
-document.getElementById("pBest").onclick=()=>{const path=PATHS[team]||{};setPicks(i=>{const [a,h]=REMAINING[i];return path[a+"@"+h]||FAV[i];});};
-document.getElementById("pOut").onclick=()=>setPicks(i=>{const [a,h]=REMAINING[i];return (a===team||h===team)?team:null;});
-document.getElementById("pChalk").onclick=()=>setPicks(i=>FAV[i]);
+function setPicks(fn){const pk=P();for(let i=0;i<pk.length;i++)pk[i]=fn(i);update();}
+document.getElementById("pBest").onclick=()=>{const path=AN[conf].paths[team()]||{};const f=FAV(conf);setPicks(i=>{const [a,h]=C().remaining[i];return path[a+"@"+h]||f[i];});};
+document.getElementById("pOut").onclick=()=>setPicks(i=>{const [a,h]=C().remaining[i];return (a===team()||h===team())?team():null;});
+document.getElementById("pChalk").onclick=()=>{const f=FAV(conf);setPicks(i=>f[i]);};
 document.getElementById("pClear").onclick=()=>setPicks(()=>null);
 document.getElementById("oddsMode").onchange=e=>{mode=e.target.value;update();};
-team=teamFromHash();
-update();
+fromHash();update();
 
 </script>
 </body>
